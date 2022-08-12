@@ -1,0 +1,5 @@
+{{ '## ' + 'ipmi_exporter.yml' }}
+{{ '# ' + ansible_managed }}
+{{ '# ' + 'Do not edit manually' }}
+
+{{ ipmi_exporter_settings | to_nice_yaml(indent=2, explicit_start=True) }}

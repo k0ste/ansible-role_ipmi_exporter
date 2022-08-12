@@ -1,0 +1,18 @@
+{{ '## ' + 'ipmi_exporter.service' }}
+{{ '# ' + ansible_managed }}
+{{ '# ' + 'Do not edit manually' }}
+
+{{ '[Unit]' }}
+{{ 'Description=ipmi_exporter' }}
+{{ 'After=network.target' }}
+{{ 'Wants=network.target' }}
+
+{{ '[Service]' }}
+{{ 'Type=simple' }}
+{{ 'User=nobody' }}
+{{ 'Group=nobody' }}
+{{ 'ExecStart=' + vars['ipmi_exporter_dest'] + '/ipmi_exporter --config.file='
++ vars['ipmi_exporter_dest'] + '/ipmi_exporter.yaml' }}
+
+{{ '[Install]' }}
+{{ 'WantedBy=multi-user.target' }}

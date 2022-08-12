@@ -1,0 +1,33 @@
+---
+- name: "ipmi_exporter | Assert that system manager is systemd"
+  assert:
+    that:
+      - "hostvars[inventory_hostname]['ansible_service_mgr'] == 'systemd'"
+    msg: "System manager is not systemd"
+    quiet: "true"
+- name: "ipmi_exporter | Set facts about ipmi_exporter role"
+  ansible.builtin.set_fact:
+    ipmi_exporter_version: "{{ hostvars[inventory_hostname]['ipmi_exporter'] |
+      community.general.json_query('[].version | [0]') | default(omit) }}"
+    ipmi_exporter_settings: "{{ hostvars[inventory_hostname]['ipmi_exporter'] |
+      community.general.json_query('[].settings[] | [0]') | default(omit) }}"
+- name: "ipmi_exporter | Get last release version from Github"
+  community.general.github_release:
+    user: "prometheus-community"
+    repo: "ipmi_exporter"
+    action: "latest_release"
+  register: "ipmi_exporter_version_tag"
+  delegate_to: "localhost"
+  when:
+    - "vars['ipmi_exporter_version'] is defined"
+    - "vars['ipmi_exporter_version'] == 'latest'"
+- name: "ipmi_exporter | Set facts about ipmi_exporter role"
+  ansible.builtin.set_fact:
+    ipmi_exporter_version: "{{ vars['ipmi_exporter_version_tag']['tag'][1:] }}"
+- name: "ipmi_exporter | Create ipmi_exporter catalog"
+  ansible.builtin.file:
+    path: "{{ vars['ipmi_exporter_dest'] }}"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0755"
