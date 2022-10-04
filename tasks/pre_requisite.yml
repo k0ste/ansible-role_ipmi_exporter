@@ -5,6 +5,9 @@
       - "hostvars[inventory_hostname]['ansible_service_mgr'] == 'systemd'"
     msg: "System manager is not systemd"
     quiet: "true"
+- name: "ipmi_exporter | Add the OS specific varibles"
+  ansible.builtin.include_vars:
+    file: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
 - name: "ipmi_exporter | Set facts about ipmi_exporter role"
   ansible.builtin.set_fact:
     ipmi_exporter_version: "{{ hostvars[inventory_hostname]['ipmi_exporter'] |

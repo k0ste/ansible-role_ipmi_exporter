@@ -1,0 +1,4 @@
+---
+ipmi_exporter_package:
+  - 'unzip'
+  - 'tar'
