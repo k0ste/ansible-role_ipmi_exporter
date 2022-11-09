@@ -19,6 +19,7 @@
     user: "prometheus-community"
     repo: "ipmi_exporter"
     action: "latest_release"
+  run_once: "true"
   register: "ipmi_exporter_version_tag"
   delegate_to: "localhost"
   when:
