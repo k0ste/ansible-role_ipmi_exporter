@@ -1,18 +1,23 @@
-{{ '## ' + 'ipmi_exporter.service' }}
+{{ '## ipmi_exporter.service' }}
 {{ '# ' + ansible_managed }}
-{{ '# ' + 'Do not edit manually' }}
+{{ '# Do not edit manually' }}
 
 {{ '[Unit]' }}
-{{ 'Description=ipmi_exporter' }}
-{{ 'After=network.target' }}
-{{ 'Wants=network.target' }}
+{{ 'Description=Prometheus IPMI exporter' }}
+{{ 'After=network.target network-online.target basic.target' }}
+{{ 'Wants=network-online.target' }}
+{{ 'StartLimitIntervalSec=30' }}
+{{ 'StartLimitBurst=3' }}
 
 {{ '[Service]' }}
 {{ 'Type=simple' }}
+{{ 'Restart=on-failure' }}
+{{ 'RestartSec=30' }}
 {{ 'User=nobody' }}
 {{ 'Group=nobody' }}
-{{ 'ExecStart=' + vars['ipmi_exporter_dest'] + '/ipmi_exporter --config.file='
-+ vars['ipmi_exporter_dest'] + '/ipmi_exporter.yaml' }}
+{{ 'ExecStart=' + hostvars[inventory_hostname]['ipmi_exporter_dest'] +
+  '/ipmi_exporter --config.file=' +
+  hostvars[inventory_hostname]['ipmi_exporter_dest'] + '/ipmi_exporter.yaml' }}
 
 {{ '[Install]' }}
 {{ 'WantedBy=multi-user.target' }}

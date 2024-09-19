@@ -1,5 +1,10 @@
 ---
-ipmi_exporter_package:
+ipmi_exporter_dest: '/opt/ipmi_exporter'
+ipmi_exporter_conf_dest: '/etc/prometheus'
+ipmi_exporter_bin: '/usr/bin/ipmi_exporter'
+ipmi_exporter_service: 'ipmi_exporter'
+ipmi_exporter_package: 'ipmi_exporter'
+ipmi_exporter_packages_deps:
   - 'unzip'
   - 'tar'
   - 'freeipmi'

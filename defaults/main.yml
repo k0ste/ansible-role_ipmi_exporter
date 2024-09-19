@@ -1,6 +1,5 @@
 ---
-ipmi_exporter_dest: '/opt/ipmi_exporter'
-ipmi_exporter_service: 'ipmi_exporter'
+ipmi_exporter: []
 ipmi_exporter_url:
   'https://github.com/prometheus-community/ipmi_exporter/releases/download'
 ipmi_exporter_arch: 'linux-amd64'
